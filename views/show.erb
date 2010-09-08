@@ -1,0 +1,24 @@
+
+<p>
+  <b>Title:</b>
+  <%= @listing.title %>
+</p>
+
+<p>
+  <b>Price:</b>
+  $<%= @listing.price %>
+</p>
+
+<p>
+  <b>Size:</b>
+  <%= @listing.size.bedrooms %>
+</p>
+
+<br/>
+
+<p>
+  <b>Content:</b>
+  <%= strip_html(@listing.content) %>
+</p>
+
+
