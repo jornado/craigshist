@@ -29,6 +29,8 @@ class ZipCode
 
   property :id, Serial
   property :zip_code, Integer
+  property :lat, String
+  property :lng, String
   property :created_at, DateTime
   
   has n, :listing

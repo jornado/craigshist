@@ -22,7 +22,7 @@ helpers do
   include Sinatra::Authorization
   
   def strip_html(string)
-    string.gsub(/<.+?>/, '<br/>')
+    string.gsub(/<.+?>/, '')
   end
   
   def escape_html(string)
@@ -34,7 +34,8 @@ end
 # ROUTES
 get '/' do
   @page_title = "Craigshist"
-  erb :index
+  @zips = ZipCode.all()
+  erb :index, :layout => false
 end
 
 get '/show/:id' do

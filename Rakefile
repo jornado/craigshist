@@ -12,3 +12,6 @@ task :install_dependencies do
   end
 end
 
+# add these
+# geokit
+# hprikot

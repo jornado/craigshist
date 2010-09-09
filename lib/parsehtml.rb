@@ -4,6 +4,7 @@ require "open-uri"
 require 'dm-core'
 require '../lib/models.rb'
 
+
 # generic parsing routines
 class ParseHtml
   
@@ -31,7 +32,16 @@ class ParseHtml
     else
       url = "#{url}&s=#{s}"
     end
-    Hpricot(open(url))
+    
+    doc = nil
+    begin
+      doc = Hpricot(open(url))
+    rescue Timeout::Error
+      return self.open_url(url, s)
+    else
+      return doc
+    end
+    
   end
   
   def parse(url, s=nil)
@@ -66,13 +76,17 @@ class ParseHtmlListing < ParseHtml
     Hpricot(open(@@config[@@env]['test_html']))
   end
   
-  def fetch(url)
+  def fetch(url, text)
     debug "Fetching #{url}"
     
     if self.exists?(url)
       debug "Already exists in db"
       return
     else
+      
+      # only 1brs, for example
+      return if not text =~ /#{@@config[@@env]['num_bedrooms']}/
+      
       debug "Opening URL #{url}"
       listing = self.open_url(url, nil)
       
@@ -128,11 +142,11 @@ class ParseHtmlListing < ParseHtml
     price = $1
     size = $2
     
-    # only 1brs, for example
-    return if not size =~ /#{@@config[@@env]['num_bedrooms']}/
-    
     street, street1, city, region, area = ""
     street = self.get_cltag(content, "xstreet0")
+    
+    return if not street 
+    
     street1 = self.get_cltag(content, "xstreet1")
     city = self.get_cltag(content, "city")
     region = self.get_cltag(content, "region")
@@ -182,7 +196,7 @@ class ParseHtmlListings < ParseHtmlListing
     doc = super
     # only culls urls that match base url
     doc.search("a[@href*=#{@@config[@@env]['base_url']}]").each{ |p| 
-      self.fetch(p.get_attribute("href"))
+      self.fetch(p.get_attribute("href"), p.inner_html)
     }
   end
   

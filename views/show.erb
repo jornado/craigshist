@@ -25,8 +25,18 @@
 </p>
 
 <p>
+  <b>Zip:</b>
+  <%= @listing.zip_code.zip_code %>
+</p>
+
+<p>
   <b>Address:</b>
   <a href="http://maps.google.com/?q=loc:<%= escape_html(@listing.address) %>"><%= @listing.address %></a>
+</p>
+
+<p>
+  <b>URL:</b>
+  <a href="<%= @listing.url %>"><%= @listing.url %></a>
 </p>
 
 <br/>
