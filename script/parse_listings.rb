@@ -15,6 +15,7 @@ parser = ParseHtmlListings.new
 parser.init(environment)
 parser.go(config[environment]["listings_url"])
 
+# todo zipcode only when missing
 geocode = Geocode.new
 # get zipcode for each
 Listing.all().each { |listing|

@@ -33,6 +33,7 @@ end
 
 # ROUTES
 get '/' do
+  # todo normalize distribution, histograms
   @page_title = "Craigshist"
   @zips = ZipCode.all()
   erb :index, :layout => false
