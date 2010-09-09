@@ -5,74 +5,11 @@ require 'dm-core'
 require 'dm-timestamps'
 require  'dm-migrations'
 require 'lib/authorization'
+require 'lib/models'
 
 configure :development do
-  DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/craigshist.db")
-end
-
-# MODELS
-
-# Individual apt listing
-class Listing
-
-    include DataMapper::Resource
-
-    property :id,           Serial
-    property :title,        String
-    property :content,      Text
-    property :address,      String
-    property :price,        Integer
-    property :posting_id,   Integer
-    property :reply_to,     String
-    property :listing_date, DateTime
-
-    belongs_to :zip_code, :size
-
-end
-
-# Number of bedrooms
-class Size
-  
-  include DataMapper::Resource
-  
-  property :id,         Serial
-  property :bedrooms,    String
-  property :created_at, DateTime
-  
-  has n, :listing
-  
-end
-
-# Geocoded zipcode
-class ZipCode
-
-  include DataMapper::Resource
-
-  property :id, Serial
-  property :zip_code, Integer
-  property :created_at, DateTime
-  
-  has n, :listing
-  
-end
-
-# Experimental class storing location strings -- might not be useful for anything
-class Area
-
-  include DataMapper::Resource
-
-  property :id,           Serial
-  property :zip_code,     String
-  property :location,     String
-  property :created_at,   DateTime
-
-  has n, :listing
-
-end
-
-# CONFIG
-configure :development do
-  # Create or upgrade all tables
+  config = YAML.load_file( 'config/craigshist.yml' )
+  DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/#{config['development']['database']}")
   DataMapper.auto_upgrade!
 end
 
@@ -85,13 +22,18 @@ helpers do
   include Sinatra::Authorization
   
   def strip_html(string)
-    string.gsub(/<.+?>/, '')
+    string.gsub(/<.+?>/, '<br/>')
+  end
+  
+  def escape_html(string)
+    CGI::escape(string)
   end
   
 end
 
 # ROUTES
 get '/' do
+  @page_title = "Craigshist"
   erb :index
 end
 
@@ -99,7 +41,7 @@ get '/show/:id' do
   require_admin
   @listing = Listing.get(params[:id])
   if @listing
-    @page_title = "Listing \#@listing.posting_id"
+    @page_title = "Listing \##{@listing.posting_id}"
     erb :show
   else
     redirect('/list')

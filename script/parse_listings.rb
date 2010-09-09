@@ -1,4 +1,4 @@
-require '../lib/parse'
+require '../lib/parsehtml'
 
 # get urls from page
 # loop through urls
@@ -6,6 +6,10 @@ require '../lib/parse'
 # if not, fetch page
 # get next url
 
-url = "http://portland.craigslist.org/search/apa/mlt?query=&srchType=A&minAsk=&maxAsk=&bedrooms=1"
+environment = "development"
+config = YAML.load_file('../config/craigshist.yml')
+
 parser = ParseHtmlListings.new
-parser.parse(url)
+parser.init(environment)
+parser.go(config[environment]["listings_url"])
+

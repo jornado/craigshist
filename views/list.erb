@@ -3,6 +3,7 @@
 <table border="0" cellplistingding="0" cellspacing="10" class="list">
 <% @listings.each_with_index do |listing,i| %>
 	<tr<%= ' class="alt"' if i%2==0 %>>
-	  <td><a href="/show/<%= listing.id %>"><%= listing.title %></a></td>
+		<td>$<%= listing.price %></td>
+	  	<td><a href="/show/<%= listing.id %>"><%= listing.title %></a></td>
 <% end %>
 </table>

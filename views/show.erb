@@ -11,7 +11,22 @@
 
 <p>
   <b>Size:</b>
-  <%= @listing.size.bedrooms %>
+  <%= @listing.size %>
+</p>
+
+<p>
+  <b>Date:</b>
+  <%= @listing.listing_date %>
+</p>
+
+<p>
+  <b>Area:</b>
+  <%= @listing.area.location %>
+</p>
+
+<p>
+  <b>Address:</b>
+  <a href="http://maps.google.com/?q=loc:<%= escape_html(@listing.address) %>"><%= @listing.address %></a>
 </p>
 
 <br/>
