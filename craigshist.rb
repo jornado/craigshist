@@ -59,9 +59,10 @@ get '/list' do
 end
 
 get '/ajax/histogram/:zip_code' do
-  @prices = [750, 850, 950]
+  @prices = repository(:default).adapter.select("SELECT l.price FROM listings l, zip_codes z where l.zip_code_id = z.id and z.zip_code = #{params[:zip_code]}")
+  
   stat = Stats.new
   stat.init
   @vals = stat.histogram(@prices)
-  erb :histogram
+  erb :histogram, :layout => false
 end

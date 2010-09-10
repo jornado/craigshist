@@ -25,7 +25,7 @@ class CHMathTest < Test::Unit::TestCase
   end
   
   def test_histogram
-    puts @stat.to_histogram(@prices)
+    #puts @stat.histogram(@prices)
     
   end
   
@@ -33,6 +33,11 @@ end
 
 class CHModels < Test::Unit::TestCase
 
+  def test_zip_listings
+    zip_code = '97209'
+    prices = repository(:default).adapter.select("SELECT l.price FROM listings l, zip_codes z where l.zip_code_id = z.id and z.zip_code = #{zip_code}")
+    puts prices
+  end
   def test_listings
     @listings = Listing.all()
     assert(true, @listings.count)
