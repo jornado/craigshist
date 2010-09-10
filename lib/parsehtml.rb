@@ -2,28 +2,24 @@ require 'rubygems'
 require "hpricot"
 require "open-uri"
 require 'dm-core'
-require '../lib/models.rb'
-
+require './lib/models.rb'
+require './lib/chdebug'
 
 # generic parsing routines
-class ParseHtml
+class ParseHtml < CHDebug
   
   def init(env='development')
-    @@config = YAML.load_file( '../config/craigshist.yml' )
-    @@env = env
-    @@debug = @@config[@@env]['debug']
+    #@@config = YAML.load_file( '../config/craigshist.yml' )
+    #@@env = env
+    #@@debug = @@config[@@env]['debug']
+    super
     
-    DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/../#{@@config[@@env]['database']}")
+    DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/./#{@@config[@@env]['database']}")
     debug "...Initializing... (#{env})\n\n"
     
   end
   
   protected
-  def debug(msg)
-    if not @@debug.nil?
-      puts msg
-    end
-  end
   
   # s represents start point (i.e., 0, 100, 200, etc)
   def open_url(url, s)

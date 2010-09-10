@@ -3,13 +3,15 @@ require 'sinatra'
 require 'sqlite3'
 require 'dm-core'
 require 'dm-timestamps'
-require  'dm-migrations'
+require 'dm-migrations'
 require 'lib/authorization'
 require 'lib/models'
+require 'lib/stats'
 
 configure :development do
+  env = 'development'
   config = YAML.load_file( 'config/craigshist.yml' )
-  DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/#{config['development']['database']}")
+  DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/#{config[env]['database']}")
   DataMapper.auto_upgrade!
 end
 
@@ -33,7 +35,6 @@ end
 
 # ROUTES
 get '/' do
-  # todo normalize distribution, histograms
   @page_title = "Craigshist"
   @zips = ZipCode.all()
   erb :index, :layout => false
@@ -55,4 +56,12 @@ get '/list' do
   @page_title = "Listings"
   @listings = Listing.all(:order => [:created_at.desc])
   erb :list
+end
+
+get '/ajax/histogram/:zip_code' do
+  @prices = [750, 850, 950]
+  stat = Stats.new
+  stat.init
+  @vals = stat.histogram(@prices)
+  erb :histogram
 end

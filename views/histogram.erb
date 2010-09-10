@@ -1,0 +1,26 @@
+
+
+<script id="source" type="text/javascript">
+$(function () {
+
+	
+	var d = [[
+	<% @vals.each do |key,val| %>
+		[<%= key %>, <%= val %>],
+	<% end %>
+	]];
+
+	
+	var options = {
+	    series: {
+	      bars: { show: true },
+	    }
+	  };
+	
+	$.plot($("#norm"), d, options );
+			
+
+});
+</script>
+
+<div id="norm" style="width:600px;height:300px"></div>

@@ -19,7 +19,9 @@ module Sinatra
   end
  
   def authorize(username, password)
-    if (username=='admin' && password=='admin') then
+    config = YAML.load_file( './config/craigshist.yml' )
+    env = 'development'
+    if (username==config[env]['admin_username'] && password==config[env]['admin_password']) then
       true
     else
       false
