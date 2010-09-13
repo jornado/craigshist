@@ -5,27 +5,24 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title><%= @page_title %></title>
-	<!-- Framework CSS -->
-    <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection">
-    <link rel="stylesheet" href="/css/print.css" type="text/css" media="print">
-    <!--[if lt IE 8]><link rel="stylesheet" href="/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
-	<style>
-		h1 { margin-top: 25px;}
-	</style>
-	
+    <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen, projection">
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.5.3/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="/js/jquery.flot.min.js"></script>
-	
+	<script type="text/javascript" src="/js/main.js"></script>
 </head>
 <body>
 
 <div class="container">
-	<h1><em>Craigshist</em></h1>
-	<h2 class="alt">A little webapp for tracking apartment price ranges by zipcode in Portland, OR.</h2>
-	<hr>
+	<div id="title">
+		<h1>Craigshist</h1>
+		<h2>A little webapp for <a href="/">mapping</a> and <a href="/list">listing</a> apartment price ranges by zipcode in Portland, OR.</h2>
+		
+	</div>
+	<div id="content">
+	<%= yield %>
+	</div>
 
-	<p><%= yield %></p>
 </div>
 
 </body>

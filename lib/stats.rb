@@ -12,7 +12,7 @@ class Stats < CHDebug
   def histogram(pop, num=1000)
     vals = self.normalize(pop, num)
     hist = vals.to_histogram
-    pairs = hist.keys.collect { |x| [x.to_s, hist[x]] }.sort
+    pairs = hist.keys.collect { |x| [x.to_i, hist[x]] }.sort
   end
 
   def normalize(pop, num=1000)

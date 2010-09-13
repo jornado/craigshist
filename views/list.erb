@@ -1,13 +1,9 @@
-<h3>Listings</h3>
 
-<table border="0" cellplistingding="0" cellspacing="10" class="list">
-	<tr>
-		<td>Price</td><td>Address</td><td>Title</td>
-	</tr>
-<% @listings.each_with_index do |listing,i| %>
-	<tr<%= ' class="alt"' if i%2==0 %>>
-		<td>$<%= listing.price %></td>
-		<td><a href="http://maps.google.com/?q=loc:<%= escape_html(listing.address) %>"><%= listing.address %></a></td>
-	  	<td><a href="/show/<%= listing.id %>"><%= listing.title %></a></td>
+<% @listings.each_with_index do |listing, i| %>
+	
+	<div class="list price <%= cycle(i) %>">$<%= listing.price %></div>
+	<div class="list address <%= cycle(i) %>"><a href="http://maps.google.com/?q=loc:<%= escape_html(listing.address) %>"><%= listing.address %><% if listing.zip_code %> <%= listing.zip_code.zip_code %><% end %></a></div>
+  	<div class="list title <%= cycle(i) %>"><a href="/show/<%= listing.id %>"><%= listing.title %></a></div>
+	<br class="list clear"/>
 <% end %>
-</table>
+
